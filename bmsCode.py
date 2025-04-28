@@ -55,7 +55,7 @@ def main():
         # Logout button
         if st.button("Logout"):
             st.session_state.logged_in = False
-            st.experimental_rerun()
+            st.rerun()
 
         st.success("You are logged in!")
 
