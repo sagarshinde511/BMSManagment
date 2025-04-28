@@ -67,7 +67,7 @@ def main():
         # Convert columns to numeric
         df['temp'] = pd.to_numeric(df['temp'], errors='coerce')
         df['vtg'] = pd.to_numeric(df['vtg'], errors='coerce')
-        df['current(mV)'] = pd.to_numeric(df['current(mV)'], errors='coerce')
+        df['current(mA)'] = pd.to_numeric(df['current(mA)'], errors='coerce')
 
         # ⚡ Divide voltage by 2
         df['vtg'] = df['vtg'] / 2
@@ -82,7 +82,7 @@ def main():
         st.plotly_chart(fig2)
 
         st.subheader("Current (mV) Over Time 🔌")
-        fig3 = px.line(df, x='dateTime', y='current(mV)', title='Current (mV) Over Time')
+        fig3 = px.line(df, x='dateTime', y='current(mA)', title='Current (mV) Over Time')
         st.plotly_chart(fig3)
 
 if __name__ == "__main__":
