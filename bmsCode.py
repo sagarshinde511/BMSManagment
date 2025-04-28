@@ -46,7 +46,7 @@ def main():
             if login(username, password):
                 st.session_state.logged_in = True
                 st.success("Logged in successfully!")
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error("Invalid credentials!")
 
@@ -55,7 +55,7 @@ def main():
         # Logout button
         if st.button("Logout"):
             st.session_state.logged_in = False
-            st.experimental_rerun()
+            st.ererun()
 
         st.success("You are logged in!")
 
@@ -78,7 +78,7 @@ def main():
         st.plotly_chart(fig1)
 
         st.subheader("Voltage Over Time (Divided by 2) ⚡")
-        fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time (Divided by 2)')
+        fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time')
         st.plotly_chart(fig2)
 
         st.subheader("Current (mV) Over Time 🔌")
