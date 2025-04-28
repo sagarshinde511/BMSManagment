@@ -11,15 +11,15 @@ DB_CONFIG = {
     "database": "u263681140_students"
 }
 
-# --- Default login credentials ---
+# Default login credentials
 USERNAME = "admin"
 PASSWORD = "password123"
 
-# --- Function to authenticate user ---
+# Function to authenticate user
 def login(username, password):
     return username == USERNAME and password == PASSWORD
 
-# --- Function to fetch data from database ---
+# Function to fetch data from database
 def fetch_data():
     conn = mysql.connector.connect(**DB_CONFIG)
     query = "SELECT * FROM BMS1"
@@ -27,45 +27,60 @@ def fetch_data():
     conn.close()
     return df
 
-# --- Streamlit App ---
+# Streamlit App
 def main():
-    st.title("BMS1 Monitoring Dashboard")
+    st.title("🔋 BMS1 Monitoring Dashboard")
 
-    # Login
-    st.subheader("Login")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    login_button = st.button("Login")
+    # Initialize session state
+    if 'logged_in' not in st.session_state:
+        st.session_state.logged_in = False
 
-    if login_button:
-        if login(username, password):
-            st.success("Logged in successfully!")
+    # If not logged in, show login form
+    if not st.session_state.logged_in:
+        st.subheader("Login")
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        login_button = st.button("Login")
 
-            # Fetch and display data
-            df = fetch_data()
-            st.subheader("Fetched Data")
-            st.dataframe(df)
+        if login_button:
+            if login(username, password):
+                st.session_state.logged_in = True
+                st.success("Logged in successfully!")
+                st.experimental_rerun()
+            else:
+                st.error("Invalid credentials!")
 
-            # Convert temp, vtg, and current(mV) to numeric (in case stored as text)
-            df['temp'] = pd.to_numeric(df['temp'], errors='coerce')
-            df['vtg'] = pd.to_numeric(df['vtg'], errors='coerce')
-            df['current(mV)'] = pd.to_numeric(df['current(mV)'], errors='coerce')
+    # If logged in, show dashboard
+    if st.session_state.logged_in:
+        # Logout button
+        if st.button("Logout"):
+            st.session_state.logged_in = False
+            st.experimental_rerun()
 
-            # Plotting graphs
-            st.subheader("Temperature Over Time")
-            fig1 = px.line(df, x='dateTime', y='temp', title='Temperature Over Time')
-            st.plotly_chart(fig1)
+        st.success("You are logged in!")
 
-            st.subheader("Voltage Over Time")
-            fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time')
-            st.plotly_chart(fig2)
+        # Fetch and display data
+        df = fetch_data()
+        st.subheader("Fetched Data Table 📄")
+        st.dataframe(df)
 
-            st.subheader("Current (mV) Over Time")
-            fig3 = px.line(df, x='dateTime', y='current(mV)', title='Current (mV) Over Time')
-            st.plotly_chart(fig3)
+        # Convert temp, vtg, and current(mV) to numeric
+        df['temp'] = pd.to_numeric(df['temp'], errors='coerce')
+        df['vtg'] = pd.to_numeric(df['vtg'], errors='coerce')
+        df['current(mV)'] = pd.to_numeric(df['current(mV)'], errors='coerce')
 
-        else:
-            st.error("Invalid credentials!")
+        # Plotting graphs
+        st.subheader("Temperature Over Time 🌡️")
+        fig1 = px.line(df, x='dateTime', y='temp', title='Temperature Over Time')
+        st.plotly_chart(fig1)
+
+        st.subheader("Voltage Over Time ⚡")
+        fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time')
+        st.plotly_chart(fig2)
+
+        st.subheader("Current (mV) Over Time 🔌")
+        fig3 = px.line(df, x='dateTime', y='current(mV)', title='Current (mV) Over Time')
+        st.plotly_chart(fig3)
 
 if __name__ == "__main__":
     main()
