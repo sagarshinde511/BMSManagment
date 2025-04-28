@@ -46,7 +46,7 @@ def main():
             if login(username, password):
                 st.session_state.logged_in = True
                 st.success("Logged in successfully!")
-                st.rerun()
+                st.experimental_rerun()
             else:
                 st.error("Invalid credentials!")
 
@@ -55,7 +55,7 @@ def main():
         # Logout button
         if st.button("Logout"):
             st.session_state.logged_in = False
-            st.rerun()
+            st.experimental_rerun()
 
         st.success("You are logged in!")
 
@@ -64,18 +64,21 @@ def main():
         st.subheader("Fetched Data Table 📄")
         st.dataframe(df)
 
-        # Convert temp, vtg, and current(mV) to numeric
+        # Convert columns to numeric
         df['temp'] = pd.to_numeric(df['temp'], errors='coerce')
         df['vtg'] = pd.to_numeric(df['vtg'], errors='coerce')
         df['current(mV)'] = pd.to_numeric(df['current(mV)'], errors='coerce')
+
+        # ⚡ Divide voltage by 2
+        df['vtg'] = df['vtg'] / 2
 
         # Plotting graphs
         st.subheader("Temperature Over Time 🌡️")
         fig1 = px.line(df, x='dateTime', y='temp', title='Temperature Over Time')
         st.plotly_chart(fig1)
 
-        st.subheader("Voltage Over Time ⚡")
-        fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time')
+        st.subheader("Voltage Over Time (Divided by 2) ⚡")
+        fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time (Divided by 2)')
         st.plotly_chart(fig2)
 
         st.subheader("Current (mV) Over Time 🔌")
@@ -84,3 +87,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
