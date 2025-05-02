@@ -81,8 +81,8 @@ def main():
         fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time')
         st.plotly_chart(fig2)
 
-        st.subheader("Current (mV) Over Time 🔌")
-        fig3 = px.line(df, x='dateTime', y='current(mA)', title='Current (mV) Over Time')
+        st.subheader("Current Over Time 🔌")
+        fig3 = px.line(df, x='dateTime', y='current', title='Current Over Time')
         st.plotly_chart(fig3)
 
 if __name__ == "__main__":
