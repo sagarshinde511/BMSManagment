@@ -67,7 +67,7 @@ def main():
         # Convert columns to numeric
         df['temp'] = pd.to_numeric(df['temp'], errors='coerce')
         df['vtg'] = pd.to_numeric(df['vtg'], errors='coerce')
-        df['current(mA)'] = pd.to_numeric(df['current'], errors='coerce')
+        df['current'] = pd.to_numeric(df['current'], errors='coerce')
 
         # ⚡ Divide voltage by 2
         df['vtg'] = df['vtg'] / 2
