@@ -13,7 +13,7 @@ DB_CONFIG = {
 
 # Default login credentials
 USERNAME = "admin"
-PASSWORD = "password123"
+PASSWORD = "123"
 
 # Function to authenticate user
 def login(username, password):
