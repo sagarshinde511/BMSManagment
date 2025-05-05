@@ -77,7 +77,7 @@ def main():
         fig1 = px.line(df, x='dateTime', y='temp', title='Temperature Over Time')
         st.plotly_chart(fig1)
 
-        st.subheader("Voltage Over Time (Divided by 2) ⚡")
+        st.subheader("Voltage Over Time⚡")
         fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time')
         st.plotly_chart(fig2)
 
