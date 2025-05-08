@@ -89,8 +89,9 @@ def main():
             st.plotly_chart(fig3)
 
         with tab2:
-            st.subheader("🛠️ Work in Progress")
-            st.write("This tab is reserved for future features or data views.")
+            st.subheader("Analyse Data")
+            st.write("Redirecting check bus Live passngers...")
+            st.markdown('<a href="https://bmsgcek-5vwhdph3tjqhgfzstsmt6gcek.streamlit.app///" target="_blank">Click here if not redirected</a>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
