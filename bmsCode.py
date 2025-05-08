@@ -90,7 +90,7 @@ def main():
 
         with tab2:
             st.subheader("Analyse Data")
-            st.write("Redirecting check bus Live passngers...")
+            st.write("Redirecting to Analyse Data...")
             st.markdown('<a href="https://bmsgcek-5vwhdph3tjqhgfzstsmt6gcek.streamlit.app///" target="_blank">Click here if not redirected</a>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
