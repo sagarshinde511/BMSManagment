@@ -29,13 +29,13 @@ def fetch_data():
 
 # Streamlit App
 def main():
-    st.title("🔋 BMS1 Monitoring Dashboard")
+    st.title("🔋 BMS Monitoring System")
 
     # Initialize session state
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
 
-    # If not logged in, show login form
+    # Login
     if not st.session_state.logged_in:
         st.subheader("Login")
         username = st.text_input("Username")
@@ -50,41 +50,47 @@ def main():
             else:
                 st.error("Invalid credentials!")
 
-    # If logged in, show dashboard
+    # Logged-in view
     if st.session_state.logged_in:
-        # Logout button
+        # Logout
         if st.button("Logout"):
             st.session_state.logged_in = False
-            st.ererun()
+            st.rerun()
 
         st.success("You are logged in!")
 
-        # Fetch and display data
-        df = fetch_data()
-        st.subheader("Fetched Data Table 📄")
-        st.dataframe(df)
+        # Tabs
+        tab1, tab2 = st.tabs(["📊 BMS1 Dashboard", "🛠️ Tab 2 Placeholder"])
 
-        # Convert columns to numeric
-        df['temp'] = pd.to_numeric(df['temp'], errors='coerce')
-        df['vtg'] = pd.to_numeric(df['vtg'], errors='coerce')
-        df['current'] = pd.to_numeric(df['current'], errors='coerce')
+        with tab1:
+            st.subheader("Fetched Data Table 📄")
+            df = fetch_data()
+            st.dataframe(df)
 
-        # ⚡ Divide voltage by 2
-        df['vtg'] = df['vtg'] / 2
+            # Convert data types
+            df['temp'] = pd.to_numeric(df['temp'], errors='coerce')
+            df['vtg'] = pd.to_numeric(df['vtg'], errors='coerce')
+            df['current'] = pd.to_numeric(df['current'], errors='coerce')
 
-        # Plotting graphs
-        st.subheader("Temperature Over Time 🌡️")
-        fig1 = px.line(df, x='dateTime', y='temp', title='Temperature Over Time')
-        st.plotly_chart(fig1)
+            # Adjust voltage
+            df['vtg'] = df['vtg'] / 2
 
-        st.subheader("Voltage Over Time⚡")
-        fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time')
-        st.plotly_chart(fig2)
+            # Graphs
+            st.subheader("Temperature Over Time 🌡️")
+            fig1 = px.line(df, x='dateTime', y='temp', title='Temperature Over Time')
+            st.plotly_chart(fig1)
 
-        st.subheader("Current Over Time 🔌")
-        fig3 = px.line(df, x='dateTime', y='current', title='Current Over Time')
-        st.plotly_chart(fig3)
+            st.subheader("Voltage Over Time ⚡")
+            fig2 = px.line(df, x='dateTime', y='vtg', title='Voltage Over Time')
+            st.plotly_chart(fig2)
+
+            st.subheader("Current Over Time 🔌")
+            fig3 = px.line(df, x='dateTime', y='current', title='Current Over Time')
+            st.plotly_chart(fig3)
+
+        with tab2:
+            st.subheader("🛠️ Work in Progress")
+            st.write("This tab is reserved for future features or data views.")
 
 if __name__ == "__main__":
     main()
-
